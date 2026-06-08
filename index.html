@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📈🍟 VIXMAXXING: The McDonald's Volatility Index™</title>
+  <meta name="description" content="When the VIX goes up, the fries go down. The official McDonald's-application-to-market-volatility correlation tracker." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Comic+Neue:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%9F%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Floating meme emojis -->
+  <div class="floaties" aria-hidden="true"></div>
+
+  <!-- Scrolling ticker tape -->
+  <div class="ticker-tape">
+    <div class="ticker-track" id="tickerTrack"></div>
+  </div>
+
+  <header class="hero">
+    <p class="kicker">🚨 NOT FINANCIAL ADVICE • DEFINITELY A MEME 🚨</p>
+    <h1 class="title">
+      <span class="line1">VIX</span><span class="emoji">📈</span><span class="line2">MAXXING</span>
+    </h1>
+    <p class="subtitle">
+      The <strong>only</strong> indicator that matters:<br />
+      when volatility goes <span class="up">UP ↑</span>, McDonald's applications go
+      <span class="up">UP ↑</span>.
+    </p>
+
+    <div class="vix-live">
+      <span class="vix-label">LIVE VIX (definitely real)</span>
+      <span class="vix-value" id="vixValue">28.42</span>
+      <span class="vix-change" id="vixChange">▲ 4.20%</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="chart-section">
+      <div class="chart-frame">
+        <div class="chart-banner">📊 PEOPLE APPLYING TO McDONALD'S vs. THE VIX 📊</div>
+        <div class="chart-wrap">
+          <canvas id="bigChart"></canvas>
+        </div>
+        <p class="chart-caption">
+          📌 Correlation is not causation. Except this time. This time it's
+          <em>definitely</em> causation.
+        </p>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="stat">
+        <span class="stat-num" id="corrStat">0.97</span>
+        <span class="stat-label">🤝 Correlation Coefficient (trust me)</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" id="appsStat">0</span>
+        <span class="stat-label">🍟 Applications This Month</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">∞</span>
+        <span class="stat-label">📉 Number of "we're so cooked" tweets</span>
+      </div>
+    </section>
+
+    <section class="meme-strip">
+      <div class="meme-card">
+        <span class="meme-emoji">😰</span>
+        <h3>VIX &lt; 15</h3>
+        <p>Market calm. Nobody wants to flip burgers. Everyone is a day trader.</p>
+      </div>
+      <div class="meme-card">
+        <span class="meme-emoji">😨</span>
+        <h3>VIX 15–30</h3>
+        <p>"Maybe I should update my resume haha unless…"</p>
+      </div>
+      <div class="meme-card">
+        <span class="meme-emoji">😱</span>
+        <h3>VIX 30–50</h3>
+        <p>Career page traffic spikes. The fryer calls your name.</p>
+      </div>
+      <div class="meme-card">
+        <span class="meme-emoji">🤡</span>
+        <h3>VIX &gt; 50</h3>
+        <p>"I'm lovin' it" becomes a survival strategy. Welcome aboard.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Made with 🍟, 🔴, and irresponsible amounts of leverage.</p>
+    <p class="small">Data is 100% fabricated for comedic purposes. The VIX, McDonald's, and your portfolio are not affiliated with this website.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
