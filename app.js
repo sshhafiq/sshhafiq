@@ -1,16 +1,20 @@
-/* global Chart, MEME_DATA */
+/* global Chart, MCD_DATA */
 (function () {
   "use strict";
 
-  const { labels, vix, apps } = MEME_DATA;
+  const RANGES = {
+    day: "Today (hourly)",
+    month: "Last 30 days",
+    threeMonth: "Last 3 months",
+    year: "Last 12 months",
+  };
 
   /* ---------------- Floating emojis ---------------- */
   (function spawnFloaties() {
     const container = document.querySelector(".floaties");
     if (!container) return;
-    const emojis = ["🍟", "🍔", "📈", "📉", "🤡", "💸", "🔴", "🥤"];
-    const count = 16;
-    for (let i = 0; i < count; i++) {
+    const emojis = ["🍟", "🍔", "📈", "🤡", "💸", "🔴", "🥤", "🧾"];
+    for (let i = 0; i < 16; i++) {
       const el = document.createElement("span");
       el.className = "floaty";
       el.textContent = emojis[i % emojis.length];
@@ -27,16 +31,16 @@
     const track = document.getElementById("tickerTrack");
     if (!track) return;
     const items = [
-      ["VIX", "+4.20%", true],
       ["MCD APPS", "+69.0%", true],
       ["RESUMES SENT", "+420%", true],
       ["DAY TRADERS", "-88%", false],
       ["FRY STATION", "HIRING", true],
-      ["S&P 500", "-3.1%", false],
+      ["DRIVE-THRU CREW", "+250%", true],
       ["HOPE", "-100%", false],
       ["McNUGGET INDEX", "ALL TIME HIGH", true],
-      ["VIX", "🚀🚀🚀", true],
+      ["APRON SUPPLY", "SOLD OUT", true],
       ["EMPLOYEE MORALE", "lovin' it", true],
+      ["MCD APPS", "🚀🚀🚀", true],
     ];
     const html = items
       .map(
@@ -44,99 +48,117 @@
           `<span>${name} <span class="${pos ? "pos" : "neg"}">${val}</span></span>`
       )
       .join("");
-    // duplicate so the scroll loops seamlessly
-    track.innerHTML = html + html;
+    track.innerHTML = html + html; // duplicate for seamless loop
   })();
 
-  /* ---------------- Animated stats ---------------- */
-  (function animateStats() {
-    const appsStat = document.getElementById("appsStat");
-    if (appsStat) {
-      const target = apps[apps.length - 1];
-      const dur = 1500;
-      const start = performance.now();
-      function tick(now) {
-        const t = Math.min((now - start) / dur, 1);
-        const eased = 1 - Math.pow(1 - t, 3);
-        appsStat.textContent = Math.round(target * eased).toLocaleString();
-        if (t < 1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-    }
-  })();
-
-  /* ---------------- Live (fake) VIX ticker ---------------- */
-  (function fakeLiveVix() {
-    const valueEl = document.getElementById("vixValue");
-    const changeEl = document.getElementById("vixChange");
-    if (!valueEl || !changeEl) return;
-    let value = vix[vix.length - 1] + Math.random() * 4;
+  /* ---------------- Live (fake) applications counter ---------------- */
+  (function fakeLiveApps() {
+    const valueEl = document.getElementById("liveApps");
+    if (!valueEl) return;
+    // Seed the live number off today's total so it feels connected.
+    let count = MCD_DATA.day.values.reduce((a, b) => a + b, 0);
+    valueEl.textContent = count.toLocaleString();
     setInterval(() => {
-      const delta = (Math.random() - 0.45) * 1.8;
-      value = Math.max(9, value + delta);
-      const pct = (delta / value) * 100;
-      valueEl.textContent = value.toFixed(2);
-      const up = delta >= 0;
-      changeEl.textContent = `${up ? "▲" : "▼"} ${Math.abs(pct).toFixed(2)}%`;
-      changeEl.classList.toggle("down", !up);
-    }, 1200);
+      count += 1 + Math.floor(Math.random() * 9);
+      valueEl.textContent = count.toLocaleString();
+    }, 800);
   })();
+
+  /* ---------------- Helpers ---------------- */
+  function animateNumber(el, target) {
+    if (!el) return;
+    const dur = 900;
+    const start = performance.now();
+    const from = parseInt(String(el.dataset.val || "0"), 10) || 0;
+    function tick(now) {
+      const t = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const val = Math.round(from + (target - from) * eased);
+      el.textContent = val.toLocaleString();
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    el.dataset.val = String(target);
+    requestAnimationFrame(tick);
+  }
+
+  function updateStats(range) {
+    const series = MCD_DATA[range];
+    const total = series.values.reduce((a, b) => a + b, 0);
+    const peak = Math.max(...series.values);
+    animateNumber(document.getElementById("periodTotal"), total);
+    animateNumber(document.getElementById("periodPeak"), peak);
+
+    const unitShort = series.unit.replace("applications / ", "per ");
+    const totalLabel = document.getElementById("periodTotalLabel");
+    const peakLabel = document.getElementById("periodPeakLabel");
+    if (totalLabel) totalLabel.textContent = `🍟 Total applications (${RANGES[range]})`;
+    if (peakLabel) peakLabel.textContent = `🚀 Peak (${unitShort})`;
+  }
 
   /* ---------------- The big chart ---------------- */
-  (function drawChart() {
+  let chart;
+
+  function makeGradient(ctx) {
+    const g = ctx.createLinearGradient(0, 0, 0, 600);
+    g.addColorStop(0, "rgba(255, 199, 44, 0.85)");
+    g.addColorStop(1, "rgba(255, 199, 44, 0.05)");
+    return g;
+  }
+
+  function statusFor(value, max) {
+    const ratio = max ? value / max : 0;
+    if (ratio >= 0.85) return "\n🤡 Status: WELCOME ABOARD";
+    if (ratio >= 0.6) return "\n😱 Status: drive-thru of applicants";
+    if (ratio >= 0.35) return "\n😬 Status: updating resume...";
+    return "\n😎 Status: still a 'day trader'";
+  }
+
+  function drawChart(range) {
     const canvas = document.getElementById("bigChart");
     if (!canvas || typeof Chart === "undefined") return;
     const ctx = canvas.getContext("2d");
-
-    const appGradient = ctx.createLinearGradient(0, 0, 0, 600);
-    appGradient.addColorStop(0, "rgba(255, 199, 44, 0.85)");
-    appGradient.addColorStop(1, "rgba(255, 199, 44, 0.05)");
+    const series = MCD_DATA[range];
+    const peak = Math.max(...series.values);
 
     Chart.defaults.color = "#fff7e6";
     Chart.defaults.font.family = "Inter, sans-serif";
     Chart.defaults.font.weight = "700";
 
-    new Chart(ctx, {
+    const data = {
+      labels: series.labels,
+      datasets: [
+        {
+          label: "🍟 McDonald's Applications",
+          data: series.values,
+          borderColor: "#ffc72c",
+          backgroundColor: makeGradient(ctx),
+          borderWidth: 4,
+          fill: true,
+          tension: 0.35,
+          pointRadius: 0,
+          pointHoverRadius: 6,
+          pointHoverBackgroundColor: "#fff",
+        },
+      ],
+    };
+
+    if (chart) {
+      chart.data = data;
+      chart.options.scales.y.title.text = "🍟 " + series.unit;
+      chart.update();
+      return;
+    }
+
+    chart = new Chart(ctx, {
       type: "line",
-      data: {
-        labels,
-        datasets: [
-          {
-            label: "🍟 McDonald's Applications",
-            data: apps,
-            yAxisID: "yApps",
-            borderColor: "#ffc72c",
-            backgroundColor: appGradient,
-            borderWidth: 4,
-            fill: true,
-            tension: 0.35,
-            pointRadius: 0,
-            pointHoverRadius: 6,
-            pointHoverBackgroundColor: "#fff",
-          },
-          {
-            label: "😱 VIX (Fear Index)",
-            data: vix,
-            yAxisID: "yVix",
-            borderColor: "#00e5ff",
-            backgroundColor: "rgba(0, 229, 255, 0.1)",
-            borderWidth: 3,
-            borderDash: [6, 4],
-            fill: false,
-            tension: 0.35,
-            pointRadius: 0,
-            pointHoverRadius: 6,
-          },
-        ],
-      },
+      data,
       options: {
         responsive: true,
         maintainAspectRatio: false,
         interaction: { mode: "index", intersect: false },
+        animation: { duration: 700 },
         plugins: {
-          legend: {
-            labels: { font: { size: 15, weight: "900" }, padding: 18 },
-          },
+          legend: { labels: { font: { size: 15, weight: "900" }, padding: 18 } },
           tooltip: {
             backgroundColor: "#1a0000",
             borderColor: "#ffc72c",
@@ -147,13 +169,10 @@
             padding: 12,
             callbacks: {
               afterBody: (items) => {
-                const v = items.find((i) => i.dataset.yAxisID === "yVix");
-                if (!v) return "";
-                const fear = v.parsed.y;
-                if (fear >= 50) return "\n🤡 Status: WELCOME ABOARD";
-                if (fear >= 30) return "\n😱 Status: Updating resume...";
-                if (fear >= 20) return "\n😨 Status: nervous laughter";
-                return "\n😎 Status: still a 'day trader'";
+                const it = items[0];
+                if (!it) return "";
+                const max = Math.max(...it.dataset.data);
+                return statusFor(it.parsed.y, max);
               },
             },
           },
@@ -163,13 +182,12 @@
             grid: { color: "rgba(255,255,255,0.08)" },
             ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 14 },
           },
-          yApps: {
-            type: "linear",
-            position: "left",
+          y: {
+            beginAtZero: false,
             grid: { color: "rgba(255,255,255,0.08)" },
             title: {
               display: true,
-              text: "🍟 Applications / month",
+              text: "🍟 " + series.unit,
               color: "#ffc72c",
               font: { size: 14, weight: "900" },
             },
@@ -178,20 +196,28 @@
               callback: (v) => (v >= 1000 ? v / 1000 + "k" : v),
             },
           },
-          yVix: {
-            type: "linear",
-            position: "right",
-            grid: { drawOnChartArea: false },
-            title: {
-              display: true,
-              text: "😱 VIX level",
-              color: "#00e5ff",
-              font: { size: 14, weight: "900" },
-            },
-            ticks: { color: "#00e5ff" },
-          },
         },
       },
     });
-  })();
+    // silence unused warning for peak in non-tooltip path
+    void peak;
+  }
+
+  /* ---------------- Range buttons ---------------- */
+  function setRange(range) {
+    drawChart(range);
+    updateStats(range);
+    document.querySelectorAll(".range-btn").forEach((b) => {
+      b.classList.toggle("active", b.dataset.range === range);
+    });
+  }
+
+  document.querySelectorAll(".range-btn").forEach((btn) => {
+    btn.addEventListener("click", () => setRange(btn.dataset.range));
+  });
+
+  // Initial render (matches the .active button in the markup).
+  const initial =
+    document.querySelector(".range-btn.active")?.dataset.range || "threeMonth";
+  setRange(initial);
 })();
