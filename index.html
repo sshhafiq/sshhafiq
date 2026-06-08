@@ -3,44 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🍟📈 McDonald's Application Tracker™</title>
-  <meta name="description" content="The official, definitely-real-time tracker of how many people are applying to McDonald's. The line only goes up." />
+  <title>McDonald's Application Tracker</title>
+  <meta name="description" content="A tracker visualizing the number of people applying to McDonald's over time, with 1D, 1M, 3M and 1Y views." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Comic+Neue:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%9F%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Floating meme emojis -->
-  <div class="floaties" aria-hidden="true"></div>
-
   <!-- Scrolling ticker tape -->
   <div class="ticker-tape">
     <div class="ticker-track" id="tickerTrack"></div>
   </div>
 
   <header class="hero">
-    <p class="kicker">🚨 NOT FINANCIAL ADVICE • FOR EDUCATIONAL PURPOSES ONLY 🚨</p>
-    <h1 class="title">
-      <span class="line1">McDonald's</span><span class="emoji">📈</span><span class="line2">Application Tracker</span>
-    </h1>
+    <div class="brandmark">🍟 MCD&nbsp;LABOR&nbsp;INDEX</div>
+    <h1 class="title">McDonald's Application Tracker</h1>
     <p class="subtitle">
-      Tracking every soul applying to <strong>McDonald's</strong>, in real time*.<br />
-      The line only goes <span class="up">UP ↑</span>. We are, in fact, so cooked. 🍳
+      A live look at how many people are applying to McDonald's over time.
+      The trend keeps climbing.
     </p>
-
-    <div class="live-box">
-      <span class="live-label">APPLICATIONS TODAY (live*)</span>
-      <span class="live-value" id="liveApps">0</span>
-      <span class="live-change" id="liveChange">▲ applying now</span>
-    </div>
+    <p class="kicker">Not financial advice — for educational purposes only</p>
   </header>
 
   <main>
     <section class="chart-section">
       <div class="chart-frame">
-        <div class="chart-banner">🍟 PEOPLE APPLYING TO McDONALD'S OVER TIME 🍟</div>
+        <div class="chart-head">
+          <div>
+            <h2 class="chart-title">Applications Over Time</h2>
+            <p class="chart-sub">People applying to McDonald's, by time period</p>
+          </div>
+          <div class="live-box">
+            <span class="live-label">Applications today</span>
+            <span class="live-value" id="liveApps">0</span>
+            <span class="live-change" id="liveChange">▲ live</span>
+          </div>
+        </div>
 
         <div class="range-bar" role="group" aria-label="Time range">
           <button class="range-btn" data-range="day">1D</button>
@@ -53,7 +53,7 @@
           <canvas id="bigChart"></canvas>
         </div>
         <p class="chart-caption">
-          📌 Past performance is not indicative of future results. The line goes up anyway.
+          Figures shown are illustrative. Past performance is not indicative of future results.
         </p>
       </div>
     </section>
@@ -61,45 +61,48 @@
     <section class="stats">
       <div class="stat">
         <span class="stat-num" id="periodTotal">0</span>
-        <span class="stat-label" id="periodTotalLabel">🍟 Applications (this period)</span>
+        <span class="stat-label" id="periodTotalLabel">Applications (this period)</span>
       </div>
       <div class="stat">
         <span class="stat-num" id="periodPeak">0</span>
-        <span class="stat-label" id="periodPeakLabel">🚀 Peak in period</span>
+        <span class="stat-label" id="periodPeakLabel">Peak in period</span>
       </div>
       <div class="stat">
-        <span class="stat-num">∞</span>
-        <span class="stat-label">📉 Number of "we're so cooked" tweets</span>
+        <span class="stat-num" id="periodAvg">0</span>
+        <span class="stat-label" id="periodAvgLabel">Average per interval</span>
       </div>
     </section>
 
-    <section class="meme-strip">
-      <div class="meme-card">
-        <span class="meme-emoji">😎</span>
-        <h3>Hiring Sign Up</h3>
-        <p>A trickle of resumes. Everyone still thinks they're a day trader.</p>
-      </div>
-      <div class="meme-card">
-        <span class="meme-emoji">😬</span>
-        <h3>Lunch Rush</h3>
-        <p>"Maybe I should update my resume haha unless…"</p>
-      </div>
-      <div class="meme-card">
-        <span class="meme-emoji">😱</span>
-        <h3>Drive-Thru of Applicants</h3>
-        <p>The career page is melting. The fryer calls your name.</p>
-      </div>
-      <div class="meme-card">
-        <span class="meme-emoji">🤡</span>
-        <h3>Welcome Aboard</h3>
-        <p>"I'm lovin' it" becomes a survival strategy. Grab an apron.</p>
+    <section class="insights">
+      <h2 class="section-heading">Demand Levels</h2>
+      <div class="insight-grid">
+        <div class="insight-card">
+          <span class="tier-dot low"></span>
+          <h3>Low</h3>
+          <p>A steady baseline of applications. Hiring pressure is light.</p>
+        </div>
+        <div class="insight-card">
+          <span class="tier-dot mod"></span>
+          <h3>Moderate</h3>
+          <p>Application volume is picking up across most locations.</p>
+        </div>
+        <div class="insight-card">
+          <span class="tier-dot high"></span>
+          <h3>High</h3>
+          <p>Career pages are seeing heavy traffic and rapid submissions.</p>
+        </div>
+        <div class="insight-card">
+          <span class="tier-dot peak"></span>
+          <h3>Peak</h3>
+          <p>Record-setting demand. Applications are at all-time highs.</p>
+        </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>Made with 🍟, 🔴, and irresponsible amounts of leverage.</p>
-    <p class="small">* Data is 100% fabricated for comedic purposes. McDonald's is not affiliated with this website.</p>
+    <p>McDonald's Application Tracker</p>
+    <p class="small">Data shown is fabricated for illustrative purposes. This site is not affiliated with McDonald's.</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>

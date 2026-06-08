@@ -1,20 +1,16 @@
-# 🍟📈 McDonald's Application Tracker™
+# McDonald's Application Tracker
 
-A deliberately memeish single-page website with one giant chart: the number of people
-**applying to McDonald's over time**.
+A single-page website that visualizes the number of people **applying to McDonald's
+over time**, with selectable time ranges.
 
-The (very serious, totally peer-reviewed) thesis: the line only goes up. We are, in
-fact, so cooked. 🍳
-
-> ⚠️ All data is 100% fabricated for comedic purposes. Not financial advice.
+> Data shown is fabricated for illustrative purposes. Not financial advice.
 
 ## Features
 
-- 🔴 Full red, meme-energy layout
-- 📊 One huge applications-over-time chart powered by [Chart.js](https://www.chartjs.org/)
+- 📈 Clean dashboard-style chart powered by [Chart.js](https://www.chartjs.org/) with a sharp, angular line
 - ⏱️ Time-range filters: **1D / 1M / 3M / 1Y**
-- 🎢 Scrolling ticker tape and a fake "live" applications counter
-- 🍟 Floating burger/fry/rocket emojis and a "how cooked is the economy" strip
+- 📊 Period stats (total, peak, average) that update with the selected range
+- 🔴 Red, McDonald's-inspired theme with a live applications counter and ticker
 
 ## Run it
 
@@ -28,6 +24,6 @@ python3 -m http.server 8000
 ## Files
 
 - `index.html` — page structure
-- `styles.css` — all the red meme styling
-- `data.js` — the (fabricated) application datasets for each time range
-- `app.js` — chart rendering, range filters, ticker, floaties, live counter
+- `styles.css` — dashboard styling
+- `data.js` — fabricated application datasets for each time range
+- `app.js` — chart rendering, range filters, stats, ticker, live counter

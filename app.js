@@ -9,38 +9,19 @@
     year: "Last 12 months",
   };
 
-  /* ---------------- Floating emojis ---------------- */
-  (function spawnFloaties() {
-    const container = document.querySelector(".floaties");
-    if (!container) return;
-    const emojis = ["🍟", "🍔", "📈", "🤡", "💸", "🔴", "🥤", "🧾"];
-    for (let i = 0; i < 16; i++) {
-      const el = document.createElement("span");
-      el.className = "floaty";
-      el.textContent = emojis[i % emojis.length];
-      el.style.left = Math.random() * 100 + "vw";
-      el.style.fontSize = 1.6 + Math.random() * 2.4 + "rem";
-      el.style.animationDuration = 12 + Math.random() * 16 + "s";
-      el.style.animationDelay = -Math.random() * 20 + "s";
-      container.appendChild(el);
-    }
-  })();
-
   /* ---------------- Ticker tape ---------------- */
   (function buildTicker() {
     const track = document.getElementById("tickerTrack");
     if (!track) return;
     const items = [
-      ["MCD APPS", "+69.0%", true],
-      ["RESUMES SENT", "+420%", true],
-      ["DAY TRADERS", "-88%", false],
-      ["FRY STATION", "HIRING", true],
-      ["DRIVE-THRU CREW", "+250%", true],
-      ["HOPE", "-100%", false],
-      ["McNUGGET INDEX", "ALL TIME HIGH", true],
-      ["APRON SUPPLY", "SOLD OUT", true],
-      ["EMPLOYEE MORALE", "lovin' it", true],
-      ["MCD APPS", "🚀🚀🚀", true],
+      ["APPLICATIONS (1D)", "+4.2%", true],
+      ["APPLICATIONS (1M)", "+18.6%", true],
+      ["APPLICATIONS (3M)", "+41.0%", true],
+      ["APPLICATIONS (1Y)", "+128%", true],
+      ["AVG / DAY", "8,140", true],
+      ["PEAK / DAY", "11,600", true],
+      ["OPEN ROLES", "HIRING", true],
+      ["DEMAND LEVEL", "HIGH", true],
     ];
     const html = items
       .map(
@@ -65,6 +46,10 @@
   })();
 
   /* ---------------- Helpers ---------------- */
+  function capitalize(s) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
   function animateNumber(el, target) {
     if (!el) return;
     const dur = 900;
@@ -85,14 +70,18 @@
     const series = MCD_DATA[range];
     const total = series.values.reduce((a, b) => a + b, 0);
     const peak = Math.max(...series.values);
+    const avg = Math.round(total / series.values.length);
     animateNumber(document.getElementById("periodTotal"), total);
     animateNumber(document.getElementById("periodPeak"), peak);
+    animateNumber(document.getElementById("periodAvg"), avg);
 
-    const unitShort = series.unit.replace("applications / ", "per ");
+    const interval = series.unit.replace("applications / ", "");
     const totalLabel = document.getElementById("periodTotalLabel");
     const peakLabel = document.getElementById("periodPeakLabel");
-    if (totalLabel) totalLabel.textContent = `🍟 Total applications (${RANGES[range]})`;
-    if (peakLabel) peakLabel.textContent = `🚀 Peak (${unitShort})`;
+    const avgLabel = document.getElementById("periodAvgLabel");
+    if (totalLabel) totalLabel.textContent = `Applications · ${RANGES[range]}`;
+    if (peakLabel) peakLabel.textContent = `Peak per ${interval}`;
+    if (avgLabel) avgLabel.textContent = `Average per ${interval}`;
   }
 
   /* ---------------- The big chart ---------------- */
@@ -107,10 +96,10 @@
 
   function statusFor(value, max) {
     const ratio = max ? value / max : 0;
-    if (ratio >= 0.85) return "\n🤡 Status: WELCOME ABOARD";
-    if (ratio >= 0.6) return "\n😱 Status: drive-thru of applicants";
-    if (ratio >= 0.35) return "\n😬 Status: updating resume...";
-    return "\n😎 Status: still a 'day trader'";
+    if (ratio >= 0.85) return "\nDemand: Peak";
+    if (ratio >= 0.6) return "\nDemand: High";
+    if (ratio >= 0.35) return "\nDemand: Moderate";
+    return "\nDemand: Low";
   }
 
   function drawChart(range) {
@@ -124,18 +113,22 @@
     Chart.defaults.font.family = "Inter, sans-serif";
     Chart.defaults.font.weight = "700";
 
+    const showPoints = series.values.length <= 35;
     const data = {
       labels: series.labels,
       datasets: [
         {
-          label: "🍟 McDonald's Applications",
+          label: "McDonald's Applications",
           data: series.values,
           borderColor: "#ffc72c",
           backgroundColor: makeGradient(ctx),
-          borderWidth: 4,
+          borderWidth: 3,
           fill: true,
-          tension: 0.35,
-          pointRadius: 0,
+          tension: 0,
+          pointRadius: showPoints ? 3 : 0,
+          pointBackgroundColor: "#ffc72c",
+          pointBorderColor: "#1a0000",
+          pointBorderWidth: 1,
           pointHoverRadius: 6,
           pointHoverBackgroundColor: "#fff",
         },
@@ -144,7 +137,7 @@
 
     if (chart) {
       chart.data = data;
-      chart.options.scales.y.title.text = "🍟 " + series.unit;
+      chart.options.scales.y.title.text = capitalize(series.unit);
       chart.update();
       return;
     }
@@ -158,7 +151,7 @@
         interaction: { mode: "index", intersect: false },
         animation: { duration: 700 },
         plugins: {
-          legend: { labels: { font: { size: 15, weight: "900" }, padding: 18 } },
+          legend: { labels: { font: { size: 14, weight: "700" }, padding: 18, usePointStyle: true } },
           tooltip: {
             backgroundColor: "#1a0000",
             borderColor: "#ffc72c",
@@ -187,9 +180,9 @@
             grid: { color: "rgba(255,255,255,0.08)" },
             title: {
               display: true,
-              text: "🍟 " + series.unit,
+              text: capitalize(series.unit),
               color: "#ffc72c",
-              font: { size: 14, weight: "900" },
+              font: { size: 13, weight: "700" },
             },
             ticks: {
               color: "#ffc72c",
