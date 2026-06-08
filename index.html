@@ -12,23 +12,30 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Animated background glow -->
+  <div class="aurora" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+  </div>
+
   <!-- Scrolling ticker tape -->
   <div class="ticker-tape">
     <div class="ticker-track" id="tickerTrack"></div>
   </div>
 
-  <header class="hero">
-    <div class="brandmark">🍟 MCD&nbsp;LABOR&nbsp;INDEX</div>
-    <h1 class="title">McDonald's Application Tracker</h1>
+  <header class="hero reveal">
+    <div class="brandmark"><span class="live-dot"></span>🍟 MCD&nbsp;LABOR&nbsp;INDEX</div>
+    <h1 class="title">The number of people applying to <span class="grad">McDonald's</span> only goes up</h1>
     <p class="subtitle">
       A live look at how many people are applying to McDonald's over time.
-      The trend keeps climbing.
+      The trend keeps climbing — and we are, in fact, so cooked. 🍳
     </p>
     <p class="kicker">Not financial advice — for educational purposes only</p>
   </header>
 
   <main>
-    <section class="chart-section">
+    <section class="chart-section reveal">
       <div class="chart-frame">
         <div class="chart-head">
           <div>
@@ -51,6 +58,7 @@
 
         <div class="chart-wrap">
           <canvas id="bigChart"></canvas>
+          <span class="pulse-dot" id="pulseDot" aria-hidden="true"></span>
         </div>
         <p class="chart-caption">
           Figures shown are illustrative. Past performance is not indicative of future results.
@@ -58,7 +66,7 @@
       </div>
     </section>
 
-    <section class="stats">
+    <section class="stats reveal">
       <div class="stat">
         <span class="stat-num" id="periodTotal">0</span>
         <span class="stat-label" id="periodTotalLabel">Applications (this period)</span>
@@ -73,7 +81,7 @@
       </div>
     </section>
 
-    <section class="insights">
+    <section class="insights reveal">
       <h2 class="section-heading">Demand Levels</h2>
       <div class="insight-grid">
         <div class="insight-card">

@@ -94,6 +94,17 @@
     return g;
   }
 
+  function positionPulse() {
+    const dot = document.getElementById("pulseDot");
+    if (!dot || !chart) return;
+    const meta = chart.getDatasetMeta(0);
+    if (!meta || !meta.data || !meta.data.length) return;
+    const last = meta.data[meta.data.length - 1];
+    dot.style.left = last.x + "px";
+    dot.style.top = last.y + "px";
+    dot.classList.add("show");
+  }
+
   function statusFor(value, max) {
     const ratio = max ? value / max : 0;
     if (ratio >= 0.85) return "\nDemand: Peak";
@@ -149,7 +160,7 @@
         responsive: true,
         maintainAspectRatio: false,
         interaction: { mode: "index", intersect: false },
-        animation: { duration: 700 },
+        animation: { duration: 800, onComplete: positionPulse },
         plugins: {
           legend: { labels: { font: { size: 14, weight: "700" }, padding: 18, usePointStyle: true } },
           tooltip: {
@@ -208,6 +219,34 @@
   document.querySelectorAll(".range-btn").forEach((btn) => {
     btn.addEventListener("click", () => setRange(btn.dataset.range));
   });
+
+  // Keep the pulsing dot glued to the end of the line on resize.
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(positionPulse, 200);
+  });
+
+  /* ---------------- Scroll reveal ---------------- */
+  (function setupReveal() {
+    const els = document.querySelectorAll(".reveal");
+    if (!("IntersectionObserver" in window)) {
+      els.forEach((el) => el.classList.add("in"));
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("in");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+    els.forEach((el) => io.observe(el));
+  })();
 
   // Initial render (matches the .active button in the markup).
   const initial =
