@@ -100,8 +100,8 @@ body {
 }
 .title {
   font-family: "Bungee", cursive;
-  font-size: clamp(3rem, 13vw, 9rem);
-  line-height: 0.9;
+  font-size: clamp(2.1rem, 8vw, 5.5rem);
+  line-height: 1;
   margin: 1rem 0 0.5rem;
   color: var(--yellow);
   text-shadow:

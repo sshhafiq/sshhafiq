@@ -1,4 +1,4 @@
-# 🍟📈 McMAXXING — The McDonald's Application Tracker™
+# 🍟📈 McDonald's Application Tracker™
 
 A deliberately memeish single-page website with one giant chart: the number of people
 **applying to McDonald's over time**.
