@@ -186,8 +186,26 @@ body {
   margin: 0 auto;
   color: var(--text-dim);
 }
+.hero-art {
+  margin: 1.6rem auto 0;
+  max-width: 460px;
+}
+.hero-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.45);
+  animation: floatArt 6s ease-in-out infinite;
+}
+@keyframes floatArt {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
 .kicker {
-  margin-top: 1rem;
+  margin-top: 1.4rem;
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -435,6 +453,6 @@ footer .small {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .blob, .ticker-track, .title .grad, .live-dot, .pulse-dot { animation: none !important; }
+  .blob, .ticker-track, .title .grad, .live-dot, .pulse-dot, .hero-art img { animation: none !important; }
   .reveal { opacity: 1; transform: none; transition: none; }
 }
