@@ -3,12 +3,36 @@
   "use strict";
 
   const RANGES = {
-    day: { label: "1D", title: "Last 24 hours, hourly", interval: "hour", resolution: "Hourly" },
-    month: { label: "1M", title: "Last 30 days, daily", interval: "day", resolution: "Daily" },
-    threeMonth: { label: "3M", title: "Last 3 months, daily", interval: "day", resolution: "Daily" },
-    year: { label: "1Y", title: "Last 12 months, monthly", interval: "month", resolution: "Monthly" },
+    day: { label: "1D", slug: "1d", title: "Last 24 hours, hourly", interval: "hour", resolution: "Hourly" },
+    month: { label: "1M", slug: "1m", title: "Last 30 days, daily", interval: "day", resolution: "Daily" },
+    threeMonth: { label: "3M", slug: "3m", title: "Last 3 months, daily", interval: "day", resolution: "Daily" },
+    year: { label: "1Y", slug: "1y", title: "Last 12 months, monthly", interval: "month", resolution: "Monthly" },
   };
   const ORDER = ["day", "month", "threeMonth", "year"];
+  const DEFAULT_RANGE = "threeMonth";
+  let currentRange = DEFAULT_RANGE;
+
+  if (typeof MCD_DATA === "undefined") {
+    const wrap = document.getElementById("chartWrap");
+    if (wrap) wrap.innerHTML = '<div class="chart-error">Data failed to load. Please refresh the page.</div>';
+    return;
+  }
+
+  /* ---------------- URL state ---------------- */
+  function rangeFromHash() {
+    const m = /range=([a-z0-9]+)/i.exec(window.location.hash);
+    if (!m) return null;
+    const key = ORDER.find((k) => RANGES[k].slug === m[1].toLowerCase());
+    return key || null;
+  }
+
+  function writeHash(range) {
+    const slug = RANGES[range].slug;
+    const url = `${window.location.pathname}${window.location.search}#range=${slug}`;
+    if (window.location.hash !== `#range=${slug}`) {
+      history.replaceState(null, "", url);
+    }
+  }
 
   /* ---------------- Math helpers ---------------- */
   const fmt = (n) => Math.round(n).toLocaleString("en-US");
@@ -141,9 +165,19 @@
     ];
   }
 
+  function showChartError(message) {
+    const wrap = document.getElementById("chartWrap");
+    if (!wrap || wrap.querySelector(".chart-error")) return;
+    wrap.innerHTML = `<div class="chart-error" role="alert">${message}</div>`;
+  }
+
   function drawChart(range) {
     const canvas = document.getElementById("bigChart");
-    if (!canvas || typeof Chart === "undefined") return;
+    if (!canvas) return;
+    if (typeof Chart === "undefined") {
+      showChartError("The chart library could not be loaded. Statistics below are still available.");
+      return;
+    }
     const series = MCD_DATA[range];
     const yTitle = series.unit.charAt(0).toUpperCase() + series.unit.slice(1);
 
@@ -213,23 +247,66 @@
     });
   }
 
+  /* ---------------- CSV export ---------------- */
+  function toCsv(range) {
+    const series = MCD_DATA[range];
+    const meta = RANGES[range];
+    const ma = movingAverage(series.values, maWindow(series.values.length));
+    const esc = (v) => `"${String(v).replace(/"/g, '""')}"`;
+    const rows = [["interval", "applications", "moving_average"]];
+    series.labels.forEach((label, i) => {
+      rows.push([label, series.values[i], ma[i] == null ? "" : Math.round(ma[i])]);
+    });
+    const body = rows.map((r) => r.map(esc).join(",")).join("\r\n");
+    return { body, filename: `mcd-applications-${meta.slug}.csv` };
+  }
+
+  function downloadCsv() {
+    const { body, filename } = toCsv(currentRange);
+    const blob = new Blob(["\ufeff" + body], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
   /* ---------------- Range switching ---------------- */
-  function setRange(range) {
-    drawChart(range);
+  function setRange(range, { updateUrl = true } = {}) {
+    if (!RANGES[range]) range = DEFAULT_RANGE;
+    currentRange = range;
+    try {
+      drawChart(range);
+    } catch (err) {
+      showChartError("The chart could not be rendered. Statistics below are still available.");
+      if (window.console) console.error(err);
+    }
     updateKpis(range);
     buildTable(range);
     const sub = document.getElementById("chartSub");
     if (sub) sub.textContent = RANGES[range].title;
     document.querySelectorAll(".range-btn").forEach((b) => {
-      b.classList.toggle("active", b.dataset.range === range);
+      const active = b.dataset.range === range;
+      b.classList.toggle("active", active);
+      b.setAttribute("aria-pressed", String(active));
     });
+    if (updateUrl) writeHash(range);
   }
 
   document.querySelectorAll(".range-btn").forEach((btn) => {
     btn.addEventListener("click", () => setRange(btn.dataset.range));
   });
 
-  const initial =
-    document.querySelector(".range-btn.active")?.dataset.range || "threeMonth";
-  setRange(initial);
+  const csvBtn = document.getElementById("downloadCsv");
+  if (csvBtn) csvBtn.addEventListener("click", downloadCsv);
+
+  window.addEventListener("hashchange", () => {
+    const r = rangeFromHash();
+    if (r && r !== currentRange) setRange(r, { updateUrl: false });
+  });
+
+  setRange(rangeFromHash() || DEFAULT_RANGE, { updateUrl: false });
 })();

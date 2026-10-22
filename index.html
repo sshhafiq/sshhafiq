@@ -3,28 +3,69 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#000000" />
+
   <title>McDonald's Application Tracker</title>
-  <meta name="description" content="Analytical view of application volume across McDonald's job pages in the U.S., with 1D, 1M, 3M and 1Y ranges." />
+  <meta name="description" content="Analytical dashboard of application volume across McDonald's U.S. job pages, with 1D, 1M, 3M and 1Y views, moving averages, and summary statistics." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://sshhafiq.github.io/sshhafiq/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="McDonald's Application Tracker" />
+  <meta property="og:title" content="McDonald's Application Tracker" />
+  <meta property="og:description" content="Application volume across McDonald's U.S. job pages with 1D, 1M, 3M and 1Y views." />
+  <meta property="og:url" content="https://sshhafiq.github.io/sshhafiq/" />
+  <meta property="og:image" content="https://sshhafiq.github.io/sshhafiq/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Line chart of application volume across McDonald's U.S. job pages" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="McDonald's Application Tracker" />
+  <meta name="twitter:description" content="Application volume across McDonald's U.S. job pages with 1D, 1M, 3M and 1Y views." />
+  <meta name="twitter:image" content="https://sshhafiq.github.io/sshhafiq/assets/og-image.png" />
+
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Cpolyline points='5,24 12,16 18,20 27,8' fill='none' stroke='%23fff' stroke-width='3'/%3E%3C/svg%3E" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=2" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "McDonald's Application Tracker",
+    "description": "Illustrative time series of application volume across McDonald's U.S. job pages at hourly, daily, and monthly resolution.",
+    "url": "https://sshhafiq.github.io/sshhafiq/",
+    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "isAccessibleForFree": true,
+    "creator": { "@type": "Person", "name": "sshhafiq" }
+  }
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
   <header class="topbar">
     <div class="container topbar-inner">
-      <div class="brand">McDonald's Application Tracker</div>
-      <div class="status">
+      <a class="brand" href="./">McDonald's Application Tracker</a>
+      <div class="status" aria-live="polite">
         <span class="status-dot" aria-hidden="true"></span>
         <span>Live</span>
-        <span class="sep">|</span>
-        <span>Updated <time id="updatedAt">--</time></span>
+        <span class="sep" aria-hidden="true">|</span>
+        <span>As of <time id="updatedAt">--</time></span>
       </div>
     </div>
   </header>
 
-  <main class="container">
+  <main class="container" id="main">
     <section class="intro">
       <h1>Application volume across McDonald's U.S. job pages</h1>
       <p class="lede">
@@ -32,79 +73,87 @@
       </p>
     </section>
 
+    <noscript>
+      <p class="notice">This dashboard requires JavaScript to render the chart and statistics.</p>
+    </noscript>
+
     <section class="kpis" aria-label="Key metrics">
       <div class="kpi">
         <span class="kpi-label">Total applications</span>
-        <span class="kpi-value" id="kpiTotal">0</span>
+        <span class="kpi-value" id="kpiTotal">--</span>
         <span class="kpi-sub" id="kpiTotalSub">Selected period</span>
       </div>
       <div class="kpi">
         <span class="kpi-label">Average</span>
-        <span class="kpi-value" id="kpiAvg">0</span>
+        <span class="kpi-value" id="kpiAvg">--</span>
         <span class="kpi-sub" id="kpiAvgSub">Per interval</span>
       </div>
       <div class="kpi">
         <span class="kpi-label">Peak</span>
-        <span class="kpi-value" id="kpiPeak">0</span>
+        <span class="kpi-value" id="kpiPeak">--</span>
         <span class="kpi-sub" id="kpiPeakSub">--</span>
       </div>
       <div class="kpi">
         <span class="kpi-label">Low</span>
-        <span class="kpi-value" id="kpiLow">0</span>
+        <span class="kpi-value" id="kpiLow">--</span>
         <span class="kpi-sub" id="kpiLowSub">--</span>
       </div>
       <div class="kpi">
         <span class="kpi-label">Period change</span>
-        <span class="kpi-value" id="kpiChange">0%</span>
+        <span class="kpi-value" id="kpiChange">--</span>
         <span class="kpi-sub" id="kpiChangeSub">First vs. last interval</span>
       </div>
       <div class="kpi">
         <span class="kpi-label">Volatility</span>
-        <span class="kpi-value" id="kpiVol">0%</span>
+        <span class="kpi-value" id="kpiVol">--</span>
         <span class="kpi-sub">Coefficient of variation</span>
       </div>
     </section>
 
-    <section class="chart-card">
+    <section class="chart-card" aria-labelledby="chartTitle">
       <div class="chart-toolbar">
         <div>
-          <h2 class="chart-title">Applications over time</h2>
+          <h2 class="chart-title" id="chartTitle">Applications over time</h2>
           <p class="chart-sub" id="chartSub">Last 3 months, daily</p>
         </div>
-        <div class="range-bar" role="group" aria-label="Time range">
-          <button class="range-btn" data-range="day">1D</button>
-          <button class="range-btn" data-range="month">1M</button>
-          <button class="range-btn active" data-range="threeMonth">3M</button>
-          <button class="range-btn" data-range="year">1Y</button>
+        <div class="toolbar-actions">
+          <div class="range-bar" role="group" aria-label="Time range">
+            <button type="button" class="range-btn" data-range="day" aria-pressed="false">1D</button>
+            <button type="button" class="range-btn" data-range="month" aria-pressed="false">1M</button>
+            <button type="button" class="range-btn active" data-range="threeMonth" aria-pressed="true">3M</button>
+            <button type="button" class="range-btn" data-range="year" aria-pressed="false">1Y</button>
+          </div>
+          <button type="button" class="action-btn" id="downloadCsv">Download CSV</button>
         </div>
       </div>
 
-      <div class="chart-wrap">
-        <canvas id="bigChart"></canvas>
+      <div class="chart-wrap" id="chartWrap">
+        <canvas id="bigChart" role="img" aria-label="Line chart of applications over time for the selected range"></canvas>
       </div>
 
       <div class="legend">
-        <span class="legend-item"><span class="swatch solid"></span>Applications</span>
-        <span class="legend-item"><span class="swatch dashed"></span><span id="maLabel">Moving average</span></span>
+        <span class="legend-item"><span class="swatch solid" aria-hidden="true"></span>Applications</span>
+        <span class="legend-item"><span class="swatch dashed" aria-hidden="true"></span><span id="maLabel">Moving average</span></span>
       </div>
     </section>
 
-    <section class="table-card">
+    <section class="table-card" aria-labelledby="tableTitle">
       <div class="table-head">
-        <h2 class="chart-title">Summary by range</h2>
+        <h2 class="chart-title" id="tableTitle">Summary by range</h2>
         <p class="chart-sub">Totals, averages, extremes, and net change for each window</p>
       </div>
       <div class="table-scroll">
         <table class="summary" id="summaryTable">
+          <caption class="sr-only">Summary statistics for each available time range</caption>
           <thead>
             <tr>
-              <th>Range</th>
-              <th>Resolution</th>
-              <th class="num">Total</th>
-              <th class="num">Average</th>
-              <th class="num">Peak</th>
-              <th class="num">Low</th>
-              <th class="num">Change</th>
+              <th scope="col">Range</th>
+              <th scope="col">Resolution</th>
+              <th scope="col" class="num">Total</th>
+              <th scope="col" class="num">Average</th>
+              <th scope="col" class="num">Peak</th>
+              <th scope="col" class="num">Low</th>
+              <th scope="col" class="num">Change</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -112,13 +161,14 @@
       </div>
     </section>
 
-    <section class="notes">
-      <h2 class="chart-title">Methodology</h2>
+    <section class="notes" aria-labelledby="methodTitle">
+      <h2 class="chart-title" id="methodTitle">Methodology</h2>
       <ul>
         <li>Figures represent the number of applications submitted per interval: hourly for 1D, daily for 1M and 3M, and monthly for 1Y.</li>
         <li>The moving average is a trailing simple average whose window scales with the number of intervals in the selected range.</li>
         <li>Period change compares the final interval to the first interval in the selected range.</li>
         <li>Volatility is the standard deviation of interval values divided by the mean.</li>
+        <li>The selected range is reflected in the page URL, so links can be shared with a specific view.</li>
       </ul>
     </section>
   </main>
@@ -128,8 +178,12 @@
     <p>Data shown is fabricated for illustrative purposes. This site is not affiliated with McDonald's.</p>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"
+    integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4"
+    crossorigin="anonymous"
+    defer></script>
+  <script src="data.js?v=2" defer></script>
+  <script src="app.js?v=2" defer></script>
 </body>
 </html>

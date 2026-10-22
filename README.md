@@ -10,23 +10,43 @@ Live site: https://sshhafiq.github.io/sshhafiq/
 ## Features
 
 - Centered time-series chart (Chart.js) with a trailing moving-average overlay
-- Time-range selector: 1D / 1M / 3M / 1Y
+- Time-range selector (1D / 1M / 3M / 1Y) reflected in the URL hash for shareable deep links
 - KPI strip: total, average, peak, low, period change, and volatility (coefficient of variation)
-- Cross-range summary table and a short methodology section
+- Cross-range summary table, CSV export of the selected range, and a methodology section
 - Monochrome, typography-led layout with no decorative elements
+
+## Production hardening
+
+- Content Security Policy, referrer policy, and Subresource Integrity on the chart library
+- Graceful degradation: statistics still render if the chart library or JavaScript data fails to load
+- Open Graph and Twitter card metadata with a generated preview image, JSON-LD, canonical URL, `robots.txt`, `sitemap.xml`, web manifest, and icons
+- Accessible: skip link, visible focus states, `aria-pressed` on controls, table caption, print styles, reduced-motion support
+- Cache-busted asset URLs (`?v=`) so updates propagate through GitHub Pages' 10-minute cache
+- Custom `404.html` and `.nojekyll` for predictable static hosting
+- GitHub Actions CI validates HTML, JavaScript syntax, data integrity, the SRI hash, and runs a daily live-site smoke test
 
 ## Run it
 
-Pure static HTML/CSS/JS with no build step. Open `index.html`, or serve it:
+Pure static HTML/CSS/JS with no build step. Serve the directory:
 
 ```bash
 python3 -m http.server 8000
 # then visit http://localhost:8000
 ```
 
+## Deploy
+
+Hosted on GitHub Pages from the `main` branch (root). Every push to `main` deploys
+automatically; the CI workflow smoke-tests the live site after each deploy.
+
+When changing `styles.css`, `app.js`, or `data.js`, bump the `?v=` query string in
+`index.html` so returning visitors receive the new files immediately.
+
 ## Files
 
-- `index.html` - page structure
+- `index.html` - page structure and metadata
 - `styles.css` - monochrome styling
 - `data.js` - fabricated datasets for each time range
-- `app.js` - chart rendering, statistics, range switching, summary table
+- `app.js` - chart rendering, statistics, range switching, CSV export
+- `404.html`, `robots.txt`, `sitemap.xml`, `site.webmanifest`, `assets/` - hosting and sharing assets
+- `.github/workflows/ci.yml` - validation and smoke tests

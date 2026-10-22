@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 6 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: JavaScript syntax
+        run: |
+          node --check app.js
+          node --check data.js
+
+      - name: Data sanity
+        run: |
+          node -e '
+            const fs = require("fs");
+            eval(fs.readFileSync("data.js","utf8").replace("const MCD_DATA","globalThis.MCD_DATA"));
+            for (const k of ["day","month","threeMonth","year"]) {
+              const s = MCD_DATA[k];
+              if (!s || s.labels.length !== s.values.length || s.values.length < 2) throw new Error("bad series: " + k);
+              if (s.values.some(v => !Number.isFinite(v) || v < 0)) throw new Error("bad values: " + k);
+            }
+            console.log("data ok");
+          '
+
+      - name: HTML validation
+        run: npx --yes html-validate@8 index.html 404.html
+
+      - name: Subresource integrity
+        run: |
+          set -euo pipefail
+          url=$(grep -o 'https://cdn.jsdelivr.net/npm/chart.js@[^"]*' index.html | head -1)
+          expected=$(grep -o 'integrity="sha384-[^"]*"' index.html | head -1 | sed 's/integrity="//; s/"$//')
+          actual="sha384-$(curl -fsSL "$url" | openssl dgst -sha384 -binary | openssl base64 -A)"
+          echo "expected: $expected"
+          echo "actual:   $actual"
+          test "$expected" = "$actual"
+
+      - name: No emoji or decorative characters
+        run: |
+          if grep -nP '[\x{1F300}-\x{1FAFF}\x{2600}-\x{27BF}]' index.html 404.html styles.css app.js; then
+            echo "Emoji found" && exit 1
+          fi
+          echo "clean"
+
+  smoke:
+    name: Live site smoke test
+    if: github.event_name == 'schedule' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for Pages deploy
+        if: github.event_name == 'push'
+        run: sleep 90
+
+      - name: Check live endpoints
+        run: |
+          set -euo pipefail
+          base="https://sshhafiq.github.io/sshhafiq"
+          for path in "/" "/styles.css" "/app.js" "/data.js" "/robots.txt" "/sitemap.xml" "/site.webmanifest" "/assets/og-image.png"; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "$base$path")
+            echo "$code $path"
+            test "$code" = "200"
+          done
