@@ -1,20 +1,23 @@
 # McDonald's Application Tracker
 
-A single-page website that visualizes the number of people **applying to McDonald's
-over time**, with selectable time ranges.
+A single-page, black-and-white analytical dashboard that visualizes application volume
+across McDonald's U.S. job pages over time.
 
-> Data shown is fabricated for illustrative purposes. Not financial advice.
+Live site: https://sshhafiq.github.io/sshhafiq/
+
+> Data shown is fabricated for illustrative purposes. Not financial advice. For educational purposes only.
 
 ## Features
 
-- 📈 Clean dashboard-style chart powered by [Chart.js](https://www.chartjs.org/) with a sharp, angular line
-- ⏱️ Time-range filters: **1D / 1M / 3M / 1Y**
-- 📊 Period stats (total, peak, average) that update with the selected range
-- 🔴 Red, McDonald's-inspired theme with a live applications counter and ticker
+- Centered time-series chart (Chart.js) with a trailing moving-average overlay
+- Time-range selector: 1D / 1M / 3M / 1Y
+- KPI strip: total, average, peak, low, period change, and volatility (coefficient of variation)
+- Cross-range summary table and a short methodology section
+- Monochrome, typography-led layout with no decorative elements
 
 ## Run it
 
-It's pure static HTML/CSS/JS — no build step. Just open `index.html`, or serve it:
+Pure static HTML/CSS/JS with no build step. Open `index.html`, or serve it:
 
 ```bash
 python3 -m http.server 8000
@@ -23,7 +26,7 @@ python3 -m http.server 8000
 
 ## Files
 
-- `index.html` — page structure
-- `styles.css` — dashboard styling
-- `data.js` — fabricated application datasets for each time range
-- `app.js` — chart rendering, range filters, stats, ticker, live counter
+- `index.html` - page structure
+- `styles.css` - monochrome styling
+- `data.js` - fabricated datasets for each time range
+- `app.js` - chart rendering, statistics, range switching, summary table
