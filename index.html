@@ -8,23 +8,23 @@
   <meta name="color-scheme" content="light" />
   <meta name="theme-color" content="#000000" />
 
-  <title>McDonald's Application Tracker</title>
-  <meta name="description" content="Analytical dashboard of application volume across McDonald's U.S. job pages, with 1D, 1M, 3M and 1Y views, moving averages, and summary statistics." />
+  <title>McDonald's U.S. Job Applications | The Golden Index</title>
+  <meta name="description" content="The Golden Index tracks daily application volume across McDonald's U.S. job pages. View 1D, 1M, 3M and 1Y history, moving averages, and summary statistics." />
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <link rel="canonical" href="https://thegoldenindex.com/" />
 
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="McDonald's Application Tracker" />
-  <meta property="og:title" content="McDonald's Application Tracker" />
-  <meta property="og:description" content="Application volume across McDonald's U.S. job pages with 1D, 1M, 3M and 1Y views." />
+  <meta property="og:site_name" content="The Golden Index" />
+  <meta property="og:title" content="McDonald's U.S. Job Applications | The Golden Index" />
+  <meta property="og:description" content="Daily application volume across McDonald's U.S. job pages with 1D, 1M, 3M and 1Y history." />
   <meta property="og:url" content="https://thegoldenindex.com/" />
   <meta property="og:image" content="https://thegoldenindex.com/assets/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Line chart of application volume across McDonald's U.S. job pages" />
+  <meta property="og:image:alt" content="Chart of application volume across McDonald's U.S. job pages" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="McDonald's Application Tracker" />
-  <meta name="twitter:description" content="Application volume across McDonald's U.S. job pages with 1D, 1M, 3M and 1Y views." />
+  <meta name="twitter:title" content="McDonald's U.S. Job Applications | The Golden Index" />
+  <meta name="twitter:description" content="Daily application volume across McDonald's U.S. job pages with 1D, 1M, 3M and 1Y history." />
   <meta name="twitter:image" content="https://thegoldenindex.com/assets/og-image.png" />
 
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
@@ -35,119 +35,168 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=2" />
+  <link rel="stylesheet" href="styles.css?v=3" />
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Dataset",
-    "name": "McDonald's Application Tracker",
-    "description": "Illustrative time series of application volume across McDonald's U.S. job pages at hourly, daily, and monthly resolution.",
+    "name": "McDonald's U.S. Job Applications",
+    "description": "Time series of application volume across McDonald's U.S. job pages at hourly, daily, and monthly resolution.",
     "url": "https://thegoldenindex.com/",
-    "license": "https://creativecommons.org/publicdomain/zero/1.0/",
     "isAccessibleForFree": true,
-    "creator": { "@type": "Person", "name": "sshhafiq" }
+    "creator": { "@type": "Organization", "name": "The Golden Index", "url": "https://thegoldenindex.com/" },
+    "publisher": { "@type": "Organization", "name": "The Golden Index", "url": "https://thegoldenindex.com/" }
   }
   </script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="topbar">
-    <div class="container topbar-inner">
-      <a class="brand" href="./">McDonald's Application Tracker</a>
-      <div class="status" aria-live="polite">
-        <span class="status-dot" aria-hidden="true"></span>
-        <span>Live</span>
-        <span class="sep" aria-hidden="true">|</span>
-        <span>As of <time id="updatedAt">--</time></span>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="wordmark" href="/" aria-label="The Golden Index home">
+        <span class="mark" aria-hidden="true"></span>
+        <span class="wordmark-text">The Golden Index</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/" class="active" aria-current="page">Trackers</a>
+        <a href="/about">About</a>
+      </nav>
+      <div class="nav-right">
+        <span class="ticker-chip" title="Tracker identifier">GDX:MCDAPP</span>
       </div>
     </div>
   </header>
 
+  <div class="subnav">
+    <nav class="container subnav-inner" aria-label="Categories">
+      <a href="/" class="active" aria-current="page">Labor</a>
+      <span>Consumer</span>
+      <span>Retail</span>
+      <span>Food Service</span>
+      <span>Macro</span>
+    </nav>
+  </div>
+
   <main class="container" id="main">
-    <section class="intro">
-      <h1>Application volume across McDonald's U.S. job pages</h1>
-      <p class="lede">
-        A live look at applications coming in across McDonald's job pages across U.S.
-      </p>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Trackers</a><span aria-hidden="true">/</span>
+      <a href="/">Labor</a><span aria-hidden="true">/</span>
+      <span aria-current="page">McDonald's U.S. Job Applications</span>
+    </nav>
+
+    <section class="tracker-head">
+      <div class="tracker-ident">
+        <div class="monogram" aria-hidden="true">MCD</div>
+        <div>
+          <h1>McDonald's U.S. Job Applications</h1>
+          <div class="tracker-meta">
+            <span>Daily application volume across McDonald's U.S. job pages</span>
+            <span class="dot" aria-hidden="true"></span>
+            <span>Coverage: United States</span>
+            <span class="dot" aria-hidden="true"></span>
+            <span>Resolution: hourly, daily, monthly</span>
+          </div>
+        </div>
+      </div>
+      <div class="headline">
+        <div class="headline-value"><span id="headlineValue">--</span><span class="headline-unit">/ day</span></div>
+        <div class="headline-change">
+          <span class="badge" id="headlineBadge">--</span>
+          <span class="headline-note">30-day change</span>
+        </div>
+      </div>
     </section>
 
     <noscript>
-      <p class="notice">This dashboard requires JavaScript to render the chart and statistics.</p>
+      <p class="notice">This page requires JavaScript to render the chart and statistics.</p>
     </noscript>
 
-    <section class="kpis" aria-label="Key metrics">
-      <div class="kpi">
-        <span class="kpi-label">Total applications</span>
-        <span class="kpi-value" id="kpiTotal">--</span>
-        <span class="kpi-sub" id="kpiTotalSub">Selected period</span>
-      </div>
-      <div class="kpi">
-        <span class="kpi-label">Average</span>
-        <span class="kpi-value" id="kpiAvg">--</span>
-        <span class="kpi-sub" id="kpiAvgSub">Per interval</span>
-      </div>
-      <div class="kpi">
-        <span class="kpi-label">Peak</span>
-        <span class="kpi-value" id="kpiPeak">--</span>
-        <span class="kpi-sub" id="kpiPeakSub">--</span>
-      </div>
-      <div class="kpi">
-        <span class="kpi-label">Low</span>
-        <span class="kpi-value" id="kpiLow">--</span>
-        <span class="kpi-sub" id="kpiLowSub">--</span>
-      </div>
-      <div class="kpi">
-        <span class="kpi-label">Period change</span>
-        <span class="kpi-value" id="kpiChange">--</span>
-        <span class="kpi-sub" id="kpiChangeSub">First vs. last interval</span>
-      </div>
-      <div class="kpi">
-        <span class="kpi-label">Volatility</span>
-        <span class="kpi-value" id="kpiVol">--</span>
-        <span class="kpi-sub">Coefficient of variation</span>
-      </div>
-    </section>
-
-    <section class="chart-card" aria-labelledby="chartTitle">
-      <div class="chart-toolbar">
-        <div>
-          <h2 class="chart-title" id="chartTitle">Applications over time</h2>
-          <p class="chart-sub" id="chartSub">Last 3 months, daily</p>
-        </div>
-        <div class="toolbar-actions">
-          <div class="range-bar" role="group" aria-label="Time range">
-            <button type="button" class="range-btn" data-range="day" aria-pressed="false">1D</button>
-            <button type="button" class="range-btn" data-range="month" aria-pressed="false">1M</button>
-            <button type="button" class="range-btn active" data-range="threeMonth" aria-pressed="true">3M</button>
-            <button type="button" class="range-btn" data-range="year" aria-pressed="false">1Y</button>
+    <div class="layout">
+      <section class="panel chart-panel" aria-labelledby="chartTitle">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title" id="chartTitle">Applications</h2>
+            <p class="panel-sub" id="chartSub">Last 3 months, daily</p>
           </div>
-          <button type="button" class="action-btn" id="downloadCsv">Download CSV</button>
+          <div class="toolbar-actions">
+            <div class="range-bar" role="group" aria-label="Time range">
+              <button type="button" class="range-btn" data-range="day" aria-pressed="false">1D</button>
+              <button type="button" class="range-btn" data-range="month" aria-pressed="false">1M</button>
+              <button type="button" class="range-btn active" data-range="threeMonth" aria-pressed="true">3M</button>
+              <button type="button" class="range-btn" data-range="year" aria-pressed="false">1Y</button>
+            </div>
+            <button type="button" class="action-btn" id="downloadCsv">Export CSV</button>
+          </div>
         </div>
-      </div>
 
-      <div class="chart-wrap" id="chartWrap">
-        <canvas id="bigChart" role="img" aria-label="Line chart of applications over time for the selected range"></canvas>
-      </div>
+        <div class="chart-wrap" id="chartWrap">
+          <canvas id="bigChart" role="img" aria-label="Line chart of McDonald's U.S. job applications for the selected range"></canvas>
+        </div>
 
-      <div class="legend">
-        <span class="legend-item"><span class="swatch solid" aria-hidden="true"></span>Applications</span>
-        <span class="legend-item"><span class="swatch dashed" aria-hidden="true"></span><span id="maLabel">Moving average</span></span>
-      </div>
-    </section>
+        <div class="legend">
+          <span class="legend-item"><span class="swatch solid" aria-hidden="true"></span>Applications</span>
+          <span class="legend-item"><span class="swatch dashed" aria-hidden="true"></span><span id="maLabel">Moving average</span></span>
+        </div>
+      </section>
 
-    <section class="table-card" aria-labelledby="tableTitle">
-      <div class="table-head">
-        <h2 class="chart-title" id="tableTitle">Summary by range</h2>
-        <p class="chart-sub">Totals, averages, extremes, and net change for each window</p>
+      <aside class="sidebar">
+        <section class="panel" aria-labelledby="statsTitle">
+          <div class="panel-head compact">
+            <h2 class="panel-title" id="statsTitle">Statistics</h2>
+            <span class="panel-sub" id="statsRange">3M</span>
+          </div>
+          <dl class="stat-list">
+            <div><dt>Total</dt><dd id="kpiTotal">--</dd></div>
+            <div><dt id="kpiAvgLabel">Average per day</dt><dd id="kpiAvg">--</dd></div>
+            <div><dt>Peak</dt><dd id="kpiPeak">--</dd></div>
+            <div class="sub"><dt>Peak date</dt><dd id="kpiPeakSub">--</dd></div>
+            <div><dt>Low</dt><dd id="kpiLow">--</dd></div>
+            <div class="sub"><dt>Low date</dt><dd id="kpiLowSub">--</dd></div>
+            <div><dt>Period change</dt><dd id="kpiChange">--</dd></div>
+            <div><dt>Volatility</dt><dd id="kpiVol">--</dd></div>
+            <div><dt>Intervals</dt><dd id="kpiCount">--</dd></div>
+          </dl>
+        </section>
+
+        <section class="panel" aria-labelledby="aboutTitle">
+          <div class="panel-head compact">
+            <h2 class="panel-title" id="aboutTitle">About this tracker</h2>
+          </div>
+          <div class="panel-body prose">
+            <p>This tracker measures the number of applications submitted through McDonald's U.S. job pages. Values are aggregated per hour, day, or month depending on the selected range.</p>
+            <p>The moving average is a trailing simple average whose window scales with the range. Period change compares the last interval to the first; volatility is the coefficient of variation across intervals.</p>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="relatedTitle">
+          <div class="panel-head compact">
+            <h2 class="panel-title" id="relatedTitle">Related trackers</h2>
+          </div>
+          <ul class="related">
+            <li><span>Walmart U.S. Job Applications</span><span class="tag">Soon</span></li>
+            <li><span>Amazon Fulfillment Applications</span><span class="tag">Soon</span></li>
+            <li><span>Starbucks U.S. Job Applications</span><span class="tag">Soon</span></li>
+            <li><span>Quick-Service Restaurant Labor Index</span><span class="tag">Soon</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+
+    <section class="panel table-panel" aria-labelledby="tableTitle">
+      <div class="panel-head">
+        <div>
+          <h2 class="panel-title" id="tableTitle">Historical summary</h2>
+          <p class="panel-sub">Totals, averages, extremes, and net change by window</p>
+        </div>
       </div>
       <div class="table-scroll">
         <table class="summary" id="summaryTable">
           <caption class="sr-only">Summary statistics for each available time range</caption>
           <thead>
             <tr>
-              <th scope="col">Range</th>
+              <th scope="col">Window</th>
               <th scope="col">Resolution</th>
               <th scope="col" class="num">Total</th>
               <th scope="col" class="num">Average</th>
@@ -160,22 +209,40 @@
         </table>
       </div>
     </section>
-
-    <section class="notes" aria-labelledby="methodTitle">
-      <h2 class="chart-title" id="methodTitle">Methodology</h2>
-      <ul>
-        <li>Figures represent the number of applications submitted per interval: hourly for 1D, daily for 1M and 3M, and monthly for 1Y.</li>
-        <li>The moving average is a trailing simple average whose window scales with the number of intervals in the selected range.</li>
-        <li>Period change compares the final interval to the first interval in the selected range.</li>
-        <li>Volatility is the standard deviation of interval values divided by the mean.</li>
-        <li>The selected range is reflected in the page URL, so links can be shared with a specific view.</li>
-      </ul>
-    </section>
   </main>
 
-  <footer class="container">
-    <p>Not financial advice. For educational purposes only.</p>
-    <p>Data shown is fabricated for illustrative purposes. This site is not affiliated with McDonald's.</p>
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="wordmark" href="/" aria-label="The Golden Index home">
+          <span class="mark" aria-hidden="true"></span>
+          <span class="wordmark-text">The Golden Index</span>
+        </a>
+        <p>Independent labor and consumer data, published as trackers and indexes.</p>
+      </div>
+      <div class="footer-col">
+        <h3>Products</h3>
+        <a href="/">Trackers</a>
+        <span>Indexes</span>
+        <span>Data API</span>
+      </div>
+      <div class="footer-col">
+        <h3>Company</h3>
+        <a href="/about">About</a>
+        <span>Research</span>
+        <span>Press</span>
+      </div>
+      <div class="footer-col">
+        <h3>Legal</h3>
+        <a href="/about#disclosures">Disclosures</a>
+        <span>Terms</span>
+        <span>Privacy</span>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 The Golden Index. All rights reserved.</span>
+      <span>Not financial advice. For educational purposes only.</span>
+    </div>
   </footer>
 
   <script
@@ -183,7 +250,7 @@
     integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4"
     crossorigin="anonymous"
     defer></script>
-  <script src="data.js?v=2" defer></script>
-  <script src="app.js?v=2" defer></script>
+  <script src="data.js?v=3" defer></script>
+  <script src="app.js?v=3" defer></script>
 </body>
 </html>

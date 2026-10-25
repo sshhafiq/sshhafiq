@@ -1,19 +1,21 @@
-# McDonald's Application Tracker
+# The Golden Index
 
-A single-page, black-and-white analytical dashboard that visualizes application volume
-across McDonald's U.S. job pages over time.
+Independent labor and consumer data, published as trackers and indexes. The first
+tracker, McDonald's U.S. Job Applications, measures application volume across
+McDonald's U.S. job pages over time.
 
 Live site: https://thegoldenindex.com/
 
-> Data shown is fabricated for illustrative purposes. Not financial advice. For educational purposes only.
+> Not financial advice. For educational purposes only.
 
 ## Features
 
 - Centered time-series chart (Chart.js) with a trailing moving-average overlay
 - Time-range selector (1D / 1M / 3M / 1Y) reflected in the URL hash for shareable deep links
 - KPI strip: total, average, peak, low, period change, and volatility (coefficient of variation)
-- Cross-range summary table, CSV export of the selected range, and a methodology section
-- Monochrome, typography-led layout with no decorative elements
+- Statistics sidebar, historical summary table, and CSV export of the selected range
+- Institutional black-and-white layout: brand navigation, breadcrumb, tracker header with headline figure, corporate footer
+- About page with definitions and disclosures
 
 ## Production hardening
 
@@ -47,7 +49,8 @@ declares the Vercel domain as canonical.
 
 ## Files
 
-- `index.html` - page structure and metadata
+- `index.html` - tracker page
+- `about.html` - company page with definitions and disclosures
 - `styles.css` - monochrome styling
 - `data.js` - fabricated datasets for each time range
 - `app.js` - chart rendering, statistics, range switching, CSV export

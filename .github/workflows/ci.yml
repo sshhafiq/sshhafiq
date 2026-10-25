@@ -40,7 +40,7 @@ jobs:
           '
 
       - name: HTML validation
-        run: npx --yes html-validate@8 index.html 404.html
+        run: npx --yes html-validate@8 index.html about.html 404.html
 
       - name: Subresource integrity
         run: |
@@ -54,7 +54,7 @@ jobs:
 
       - name: No emoji or decorative characters
         run: |
-          if grep -nP '[\x{1F300}-\x{1FAFF}\x{2600}-\x{27BF}]' index.html 404.html styles.css app.js; then
+          if grep -nP '[\x{1F300}-\x{1FAFF}\x{2600}-\x{27BF}]' index.html about.html 404.html styles.css app.js; then
             echo "Emoji found" && exit 1
           fi
           echo "clean"
@@ -73,7 +73,7 @@ jobs:
         run: |
           set -euo pipefail
           base="https://thegoldenindex.com"
-          for path in "/" "/styles.css" "/app.js" "/data.js" "/robots.txt" "/sitemap.xml" "/site.webmanifest" "/assets/og-image.png"; do
+          for path in "/" "/about" "/styles.css" "/app.js" "/data.js" "/robots.txt" "/sitemap.xml" "/site.webmanifest" "/assets/og-image.png"; do
             code=$(curl -s -o /dev/null -w "%{http_code}" "$base$path")
             echo "$code $path"
             test "$code" = "200"

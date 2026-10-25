@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#000000" />
+
+  <title>About | The Golden Index</title>
+  <meta name="description" content="The Golden Index publishes independent labor and consumer data as trackers and indexes." />
+  <link rel="canonical" href="https://thegoldenindex.com/about" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="The Golden Index" />
+  <meta property="og:title" content="About | The Golden Index" />
+  <meta property="og:description" content="The Golden Index publishes independent labor and consumer data as trackers and indexes." />
+  <meta property="og:url" content="https://thegoldenindex.com/about" />
+  <meta property="og:image" content="https://thegoldenindex.com/assets/og-image.png" />
+
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=3" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="wordmark" href="/" aria-label="The Golden Index home">
+        <span class="mark" aria-hidden="true"></span>
+        <span class="wordmark-text">The Golden Index</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/">Trackers</a>
+        <a href="/about" class="active" aria-current="page">About</a>
+      </nav>
+      <div class="nav-right"></div>
+    </div>
+  </header>
+
+  <main class="container page" id="main">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a><span aria-hidden="true">/</span>
+      <span aria-current="page">About</span>
+    </nav>
+
+    <section class="prose page-prose">
+      <h1>About The Golden Index</h1>
+      <p>The Golden Index publishes independent measures of labor and consumer activity. Each tracker follows a single, narrowly defined signal over time so that it can be read at a glance and compared across windows.</p>
+
+      <h2>Trackers</h2>
+      <p>A tracker is a single time series published at hourly, daily, and monthly resolution with a consistent set of summary statistics: total, average, peak, low, period change, and volatility. Every tracker page offers the same range controls and a CSV export of the selected window.</p>
+      <p>The first published tracker is <a href="/">McDonald's U.S. Job Applications</a>, which measures application volume across McDonald's U.S. job pages.</p>
+
+      <h2>Definitions</h2>
+      <dl class="definitions">
+        <div><dt>Moving average</dt><dd>A trailing simple average whose window scales with the number of intervals in the selected range.</dd></div>
+        <div><dt>Period change</dt><dd>The percentage difference between the final and first interval in the selected range.</dd></div>
+        <div><dt>Volatility</dt><dd>The coefficient of variation: the standard deviation of interval values divided by their mean.</dd></div>
+      </dl>
+
+      <h2 id="disclosures">Disclosures</h2>
+      <p>Content on this site is provided for informational and educational purposes only and does not constitute financial, investment, or employment advice. The Golden Index is not affiliated with, endorsed by, or sponsored by McDonald's Corporation or any company referenced on this site. Company names are used for identification only.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="wordmark" href="/" aria-label="The Golden Index home">
+          <span class="mark" aria-hidden="true"></span>
+          <span class="wordmark-text">The Golden Index</span>
+        </a>
+        <p>Independent labor and consumer data, published as trackers and indexes.</p>
+      </div>
+      <div class="footer-col">
+        <h3>Products</h3>
+        <a href="/">Trackers</a>
+        <span>Indexes</span>
+        <span>Data API</span>
+      </div>
+      <div class="footer-col">
+        <h3>Company</h3>
+        <a href="/about">About</a>
+        <span>Research</span>
+        <span>Press</span>
+      </div>
+      <div class="footer-col">
+        <h3>Legal</h3>
+        <a href="/about#disclosures">Disclosures</a>
+        <span>Terms</span>
+        <span>Privacy</span>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>&copy; 2026 The Golden Index. All rights reserved.</span>
+      <span>Not financial advice. For educational purposes only.</span>
+    </div>
+  </footer>
+</body>
+</html>

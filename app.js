@@ -68,40 +68,39 @@
     return Math.max(3, Math.round(n / 8));
   }
 
-  /* ---------------- Header ---------------- */
-  (function setUpdated() {
-    const el = document.getElementById("updatedAt");
-    if (!el) return;
-    const now = new Date();
-    el.dateTime = now.toISOString();
-    el.textContent = now.toLocaleString("en-US", {
-      month: "short", day: "numeric", hour: "numeric", minute: "2-digit",
-    });
+  /* ---------------- Headline figure ---------------- */
+  (function setHeadline() {
+    const valueEl = document.getElementById("headlineValue");
+    const badgeEl = document.getElementById("headlineBadge");
+    if (!valueEl || !badgeEl) return;
+    const s = stats(MCD_DATA.month.values);
+    valueEl.textContent = fmt(s.last);
+    badgeEl.textContent = pct(s.change);
+    badgeEl.classList.add(s.change >= 0 ? "up" : "down");
   })();
 
-  /* ---------------- KPIs ---------------- */
+  /* ---------------- Statistics ---------------- */
+  function setText(id, text) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  }
+
   function updateKpis(range) {
     const series = MCD_DATA[range];
     const s = stats(series.values);
     const meta = RANGES[range];
 
-    document.getElementById("kpiTotal").textContent = fmt(s.total);
-    document.getElementById("kpiTotalSub").textContent = meta.title;
-
-    document.getElementById("kpiAvg").textContent = fmt(s.mean);
-    document.getElementById("kpiAvgSub").textContent = `Per ${meta.interval}`;
-
-    document.getElementById("kpiPeak").textContent = fmt(s.peak);
-    document.getElementById("kpiPeakSub").textContent = series.labels[s.peakIdx];
-
-    document.getElementById("kpiLow").textContent = fmt(s.low);
-    document.getElementById("kpiLowSub").textContent = series.labels[s.lowIdx];
-
-    document.getElementById("kpiChange").textContent = pct(s.change);
-    document.getElementById("kpiChangeSub").textContent =
-      `${fmt(s.first)} to ${fmt(s.last)} per ${meta.interval}`;
-
-    document.getElementById("kpiVol").textContent = `${s.cv.toFixed(1)}%`;
+    setText("statsRange", meta.label);
+    setText("kpiTotal", fmt(s.total));
+    setText("kpiAvgLabel", `Average per ${meta.interval}`);
+    setText("kpiAvg", fmt(s.mean));
+    setText("kpiPeak", fmt(s.peak));
+    setText("kpiPeakSub", series.labels[s.peakIdx]);
+    setText("kpiLow", fmt(s.low));
+    setText("kpiLowSub", series.labels[s.lowIdx]);
+    setText("kpiChange", pct(s.change));
+    setText("kpiVol", `${s.cv.toFixed(1)}%`);
+    setText("kpiCount", String(s.n));
   }
 
   /* ---------------- Summary table ---------------- */
@@ -121,6 +120,9 @@
         <td class="num">${pct(s.change)}</td>
       </tr>`;
     }).join("");
+    tbody.querySelectorAll("tr[data-range]").forEach((tr) => {
+      tr.addEventListener("click", () => setRange(tr.dataset.range));
+    });
   }
 
   /* ---------------- Chart ---------------- */
