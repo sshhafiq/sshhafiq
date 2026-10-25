@@ -65,16 +65,35 @@ jobs:
     needs: validate
     runs-on: ubuntu-latest
     steps:
-      - name: Wait for Pages deploy
+      - name: Wait for Vercel deploy
         if: github.event_name == 'push'
-        run: sleep 90
+        run: sleep 45
 
       - name: Check live endpoints
         run: |
           set -euo pipefail
-          base="https://sshhafiq.github.io/sshhafiq"
+          base="https://thegoldenindex.com"
           for path in "/" "/styles.css" "/app.js" "/data.js" "/robots.txt" "/sitemap.xml" "/site.webmanifest" "/assets/og-image.png"; do
             code=$(curl -s -o /dev/null -w "%{http_code}" "$base$path")
             echo "$code $path"
             test "$code" = "200"
+          done
+
+      - name: Check www redirect and 404
+        run: |
+          set -euo pipefail
+          code=$(curl -s -o /dev/null -w "%{http_code}" "https://www.thegoldenindex.com/")
+          echo "www -> $code"
+          test "$code" = "308" -o "$code" = "301"
+          code=$(curl -s -o /dev/null -w "%{http_code}" "https://thegoldenindex.com/this-page-does-not-exist")
+          echo "404 -> $code"
+          test "$code" = "404"
+
+      - name: Check security headers
+        run: |
+          set -euo pipefail
+          curl -sI "https://thegoldenindex.com/" > headers.txt
+          for h in strict-transport-security content-security-policy x-content-type-options x-frame-options referrer-policy; do
+            grep -qi "^$h:" headers.txt || { echo "missing header: $h"; exit 1; }
+            echo "ok $h"
           done

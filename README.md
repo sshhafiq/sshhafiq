@@ -3,7 +3,7 @@
 A single-page, black-and-white analytical dashboard that visualizes application volume
 across McDonald's U.S. job pages over time.
 
-Live site: https://sshhafiq.github.io/sshhafiq/
+Live site: https://thegoldenindex.com/
 
 > Data shown is fabricated for illustrative purposes. Not financial advice. For educational purposes only.
 
@@ -36,11 +36,14 @@ python3 -m http.server 8000
 
 ## Deploy
 
-Hosted on GitHub Pages from the `main` branch (root). Every push to `main` deploys
-automatically; the CI workflow smoke-tests the live site after each deploy.
+Hosted on Vercel (project `sshhafiq`, team `thegoldenindex`) and linked to this GitHub
+repository. Every push to `main` deploys to production at https://thegoldenindex.com;
+every pull request gets a preview URL. `www.thegoldenindex.com` redirects to the apex.
+Security and caching headers are defined in `vercel.json`. The CI workflow smoke-tests
+the live site, redirect, 404, and headers after each deploy and daily.
 
-When changing `styles.css`, `app.js`, or `data.js`, bump the `?v=` query string in
-`index.html` so returning visitors receive the new files immediately.
+The GitHub Pages copy at https://sshhafiq.github.io/sshhafiq/ remains as a mirror and
+declares the Vercel domain as canonical.
 
 ## Files
 
