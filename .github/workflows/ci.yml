@@ -73,7 +73,7 @@ jobs:
         run: |
           set -euo pipefail
           base="https://thegoldenindex.com"
-          for path in "/" "/about" "/styles.css" "/app.js" "/data.js" "/robots.txt" "/sitemap.xml" "/site.webmanifest" "/assets/og-image.png"; do
+          for path in "/" "/about" "/styles.css" "/app.js" "/data.js" "/robots.txt" "/sitemap.xml" "/site.webmanifest" "/assets/og-image-v4.png" "/assets/logo-64.png" "/assets/mcd.svg"; do
             code=$(curl -s -o /dev/null -w "%{http_code}" "$base$path")
             echo "$code $path"
             test "$code" = "200"
