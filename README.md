@@ -1,58 +1,11 @@
-# The Golden Index
+# Hi, I'm Shafiq 👋
 
-Independent labor and consumer data, published as trackers and indexes. The first
-tracker, McDonald's U.S. Job Applications, measures application volume across
-McDonald's U.S. job pages over time.
+Software engineer building AI platforms and agent infrastructure.
 
-Live site: https://thegoldenindex.com/
+- 🔨 Building Olleey, a multi-model AI platform, plus agentforge (durable agent workflows), llm-eval-harness (LLM evals from scratch), and inferline (a lightweight inference server)
+- 🌱 Into AI agents, tool use, and evals
+- 💬 Ask me about agent workflows, LLM evaluation, or data governance
+- 🔗 [olleey.com](https://olleey.com) · [thegoldenindex.com](https://thegoldenindex.com)
 
-> Not financial advice. For educational purposes only.
-
-## Features
-
-- Centered time-series chart (Chart.js) with a trailing moving-average overlay
-- Time-range selector (1D / 1M / 3M / 1Y) reflected in the URL hash for shareable deep links
-- KPI strip: total, average, peak, low, period change, and volatility (coefficient of variation)
-- Statistics sidebar, historical summary table, and CSV export of the selected range
-- Institutional black-and-white layout: brand navigation, breadcrumb, tracker header with headline figure, corporate footer
-- About page with definitions and disclosures
-
-## Production hardening
-
-- Content Security Policy, referrer policy, and Subresource Integrity on the chart library
-- Graceful degradation: statistics still render if the chart library or JavaScript data fails to load
-- Open Graph and Twitter card metadata with a generated preview image, JSON-LD, canonical URL, `robots.txt`, `sitemap.xml`, web manifest, and icons
-- Accessible: skip link, visible focus states, `aria-pressed` on controls, table caption, print styles, reduced-motion support
-- Cache-busted asset URLs (`?v=`) so updates propagate through GitHub Pages' 10-minute cache
-- Custom `404.html` and `.nojekyll` for predictable static hosting
-- GitHub Actions CI validates HTML, JavaScript syntax, data integrity, the SRI hash, and runs a daily live-site smoke test
-
-## Run it
-
-Pure static HTML/CSS/JS with no build step. Serve the directory:
-
-```bash
-python3 -m http.server 8000
-# then visit http://localhost:8000
-```
-
-## Deploy
-
-Hosted on Vercel (project `sshhafiq`, team `thegoldenindex`) and linked to this GitHub
-repository. Every push to `main` deploys to production at https://thegoldenindex.com;
-every pull request gets a preview URL. `www.thegoldenindex.com` redirects to the apex.
-Security and caching headers are defined in `vercel.json`. The CI workflow smoke-tests
-the live site, redirect, 404, and headers after each deploy and daily.
-
-The GitHub Pages copy at https://sshhafiq.github.io/sshhafiq/ remains as a mirror and
-declares the Vercel domain as canonical.
-
-## Files
-
-- `index.html` - tracker page
-- `about.html` - company page with definitions and disclosures
-- `styles.css` - monochrome styling
-- `data.js` - fabricated datasets for each time range
-- `app.js` - chart rendering, statistics, range switching, CSV export
-- `404.html`, `robots.txt`, `sitemap.xml`, `site.webmanifest`, `assets/` - hosting and sharing assets
-- `.github/workflows/ci.yml` - validation and smoke tests
+![Shafiq's GitHub stats](https://github-readme-stats.vercel.app/api?username=sshhafiq&show_icons=true)
+![Top languages](https://github-readme-stats.vercel.app/api/top-langs/?username=sshhafiq&layout=compact)
