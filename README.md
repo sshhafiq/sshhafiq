@@ -1,6 +1,6 @@
 # Hi, I'm Shafiq
 
-Software engineer in Bellevue. I work on data governance and AI platforms, and I build tools for agents, evals and inference.
+Software engineer in WA. I work on data governance and Data/AI platforms, and I like to build tools for agents, evals and inference.
 
 - I built Olleey, a platform that runs work across multiple AI models, plus agentforge (agent workflows that can run a long time), LLM-Eval-harness (testing models on the same data every time) and inferline (a small inference server)
 - Into AI agents, tool use and evals
