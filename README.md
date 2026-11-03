@@ -7,5 +7,5 @@ Software engineer in WA. I work on data governance and Data/AI platforms, and I 
 - Happy to talk about agent workflows, LLM evaluation or data governance
 - [olleey.com](https://olleey.com) and [thegoldenindex.com](https://thegoldenindex.com)
 
-![Shafiq's GitHub stats](https://github-readme-stats.vercel.app/api?username=sshhafiq&show_icons=true)
-![Top languages](https://github-readme-stats.vercel.app/api/top-langs/?username=sshhafiq&layout=compact)
+![Shafiq's GitHub stats](https://github-readme-stats-two-xi-49.vercel.app/api?username=sshhafiq&show_icons=true)
+![Top languages](https://github-readme-stats-two-xi-49.vercel.app/api/top-langs/?username=sshhafiq&layout=compact)
